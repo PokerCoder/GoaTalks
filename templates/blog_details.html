@@ -1,0 +1,30 @@
+{% extends 'base.html' %} {% block body %}
+<main id="main">
+  <!-- ======= Breadcrumbs ======= -->
+  <section id="breadcrumbs" class="breadcrumbs">
+    <div class="container">
+      <ol>
+        <li><a href="/blog">Blog</a></li>
+        <li>{{ blog.title }}</li>
+      </ol>
+    </div>
+  </section>
+  <!-- End Breadcrumbs -->
+  <section class="inner-page">
+    <div class="container" style="text-align: center; max-width: 600px">
+      <img
+        src="{{ url_for('send_uploaded_file', filename=blog.image) }}"
+        class="img-fluid"
+        alt=""
+      />
+
+        <h2>{{ blog.title }}</h2> 
+        <p class="text-muted">{{ blog.created_date.strftime('%d.%m.%Y')}}</p>
+      </ul>
+      <p>{{ blog.content | safe}}</p>
+    </div>
+  </section>
+</main>
+<!-- End #main -->
+
+{% endblock body %}

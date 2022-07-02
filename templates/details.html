@@ -1,0 +1,58 @@
+{% extends 'base.html' %} {% block body %} {% include 'header.html' %}
+<main id="main">
+  <!-- ======= Breadcrumbs ======= -->
+  <section id="breadcrumbs" class="breadcrumbs">
+    <div class="container">
+      <ol>
+        <li><a href="/">Ana Sayfa</a></li>
+        <li>Eğitim Bilgileri</li>
+      </ol>
+    </div>
+  </section>
+  <!-- End Breadcrumbs -->
+
+  <!-- ======= Portfolio Details Section ======= -->
+  <section id="portfolio-details" class="portfolio-details">
+    <div class="container">
+      <div class="row gy-4">
+        <div class="col-lg-6">
+          <div class="swiper">
+            <div class="swiper-wrapper align-items-center">
+              <img
+                src="{{ url_for('send_uploaded_file', filename=course.image) }}"
+                class="detail-image img-fluid"
+                alt=""
+              />
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="portfolio-info">
+            <h3>{{ course.title }}</h3>
+            <ul>
+              <li>{{ course.content }}</li>
+              <li>
+                <p>
+                  Bizimle
+                  <a
+                    href="https://wa.me/+905300156153"
+                    target="_blank"
+                    class="details-link"
+                    ><i class="bx bxl-whatsapp"></i> Whatsapp</a
+                  >'dan iletişime geçebilirsiniz.
+                </p>
+              </li>
+              <li><a href="/#contact">
+                İletişim formumuzu 
+              </a>kullanabilirsiniz.
+                </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  {% include 'contact.html' %}
+  <!-- End Portfolio Details Section -->
+  {% endblock body %}
+</main>

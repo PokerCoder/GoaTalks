@@ -1,0 +1,102 @@
+{% extends 'admin/master.html' %} {% block body %} {% with messages =
+get_flashed_messages(with_categories=true) %} {% if messages %}
+<ul class="flashes">
+  {% for category, message in messages %}
+  <li class="{{ category }}">{{ message }}</li>
+  {% endfor %}
+</ul>
+{% endif %} {% endwith %}
+
+<style>
+  .inputfile {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+  }
+
+  .inputfile + label,
+  .button {
+    background-color: #4caf50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+  }
+
+  .inputfile:focus + label,
+  .inputfile + label:hover,
+  .button:focus,
+  .button:hover {
+    opacity: 0.8;
+  }
+
+  .form-container {
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 20px;
+    text-align: center;
+  }
+
+  .delete-button {
+    background-color: red;
+  }
+</style>
+<div class="form-container">
+  <h4>Dosya Yükleme Alanı</h4>
+  <form action="" method="post" enctype="multipart/form-data">
+    <input type="file" name="file" id="file" class="inputfile" />
+    <label for="file">Yüklemek İçin Dosya Seç</label>
+    <input type="submit" value="Yükle" class="button" />
+    <div id="file-upload-filename"></div>
+  </form>
+</div>
+<hr />
+<div class="form-container">
+  <h4>Yüklenmiş Dosyalar</h4>
+  {% for filename in fileNames %}
+  <a href="{{ url_for('send_uploaded_file', filename=filename) }}"
+    >{{ filename }}</a
+  ><br />
+  {% endfor %}
+</div>
+<hr />
+<div class="form-container">
+  <h4>Dosya Silme Alanı</h4>
+  <form action="{{ url_for('uploadfileview.delete_file') }}" method="POST">
+    <select id="filename" name="filename" class="button delete-button">
+      <option value="" selected disabled>Silinecek Dosya Seç</option>
+      {% for filename in fileNames %}
+      <option value="{{ filename }}">{{ filename }}</option>
+      {% endfor %}
+    </select>
+    <input type="submit" value="Sil" class="button delete-button" />
+  </form>
+</div>
+
+<script>
+  var input = document.getElementById("file");
+  var infoArea = document.getElementById("file-upload-filename");
+
+  input.addEventListener("change", showFileName);
+
+  function showFileName(event) {
+    // the change event gives us the input it occurred in
+    var input = event.srcElement;
+
+    // the input has an array of files in the `files` property, each one has a name that you can use. We're just using the name here.
+    var fileName = input.files[0].name;
+
+    // use fileName however fits your app best, i.e. add it into a div
+    infoArea.textContent = "Seçildi: " + fileName;
+  }
+</script>
+
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends 'base.html' %} {% block body %}
+<!-- ======= Hero Section ======= -->
+
+<section id="hero" class="d-flex align-items-center">
+  <div class="container">
+    <div class="row">
+      <div
+        class="col-lg-6 d-flex flex-column justify-content-center pt-4 pt-lg-0 order-2 order-lg-1"
+        data-aos="fade-up"
+        data-aos-delay="200"
+      >
+        {% with messages = get_flashed_messages(with_categories=true) %} {% if
+        messages %} {% for category, message in messages %}
+        <div class="alert alert-{{ category }}"><strong>{{ message }}</strong></div>
+        {% endfor %} {% endif %} {% endwith %}
+        <h1>Fizyoterapi &amp Diyetetik</h1>
+        <h2>
+          Genç ve dinamik yönetim kadromuz, tecrübeli ve bilgili eğitim
+          kadromuzla öğrencilerin istek ve ihtiyaçları doğrultusunda onlara en
+          doğru ve en iyi eğitimi sunmayı hedefliyoruz.
+        </h2>
+        <div
+          class="d-flex justify-content-center justify-content-lg-start mb-4"
+        >
+          <a href="#team" class="btn-get-started scrollto">Ekibimiz</a>
+          <a
+            href="https://www.youtube.com/watch?v=oqFGBIUfFKg"
+            class="glightbox btn-watch-video"
+            ><i class="bi bi-play-circle"></i><span>Tanıtım</span></a
+          >
+        </div>
+      </div>
+      <div
+        class="col-lg-6 order-1 order-lg-2 hero-img"
+        data-aos="zoom-in"
+        data-aos-delay="200"
+      >
+        <img src=" {{ url_for("static", filename='img/hero-img.png') }}"
+        class="img-fluid animated" alt="fizyoterapi ve diyetetik" />
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End Hero -->
+
+<main id="main">
+  {% include 'clients.html' %} {% include 'about.html' %} {% include
+  'calltoaction.html' %} {% include 'portfolio.html' %} {% include 'team.html'
+  %} {% include 'whyus.html' %} {% include 'faq.html' %} {% include
+  'contact.html' %}
+</main>
+<!-- End #main -->
+
+<div id="preloader"></div>
+
+
+
+{% endblock body %}

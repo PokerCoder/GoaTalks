@@ -1,0 +1,36 @@
+<!-- ======= Portfolio Section ======= -->
+<section id="portfolio" class="portfolio">
+  <div class="container" data-aos="fade-up">
+    {% if url_for(request.endpoint) != "/egitimler" %}
+    <div class="section-title">
+      <h2>YAKLAŞAN EĞİTİMLER</h2>
+    </div>
+    {% endif %}
+    <div
+      class="row portfolio-container"
+      data-aos="fade-up"
+      data-aos-delay="200"
+    >
+      {% for course in courses %}
+
+      <div class="col-lg-4 col-md-6 portfolio-item">
+        <a href="/egitim/{{ course.id }}">
+          <div class="portfolio-img">
+            <img
+              src="{{ url_for('send_uploaded_file', filename=course.image) }}"
+              class="img-fluid"
+              alt=""
+            />
+          </div>
+          <div class="portfolio-info">
+            <h4>{{ course.title }}</h4>
+            <a href="https://wa.me/+905300156153" target="_blank" class="details-link"><i class="bx bxl-whatsapp"></i></a>
+          </div>
+        </a>
+      </div>
+
+      {% endfor %}
+    </div>
+  </div>
+</section>
+<!-- End Portfolio Section -->
