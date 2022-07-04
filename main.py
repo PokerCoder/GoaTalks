@@ -1,7 +1,5 @@
 import os
 import datetime
-from re import sub
-from unicodedata import name
 from flask import Flask, render_template, redirect, url_for, flash, request, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
