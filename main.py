@@ -1,3 +1,4 @@
+from crypt import methods
 import os
 import datetime
 from flask import Flask, render_template, redirect, url_for, flash, request, send_from_directory
@@ -6,6 +7,8 @@ from flask_migrate import Migrate
 from flask_admin import Admin, AdminIndexView, expose
 from flask_admin.contrib.sqla import ModelView
 from flask_admin.contrib.fileadmin import FileAdmin
+from flask_admin.menu import MenuLink
+from flask_login import UserMixin, LoginManager, current_user, login_user, logout_user
 from flask_wtf import FlaskForm
 from wtforms import StringField, TextAreaField, validators
 import smtplib
@@ -18,6 +21,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 app = Flask(__name__)
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
+login = LoginManager(app)
 
 UPLOAD_FOLDER = os.path.join(basedir, 'uploads')
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
@@ -76,12 +80,29 @@ class Subscriber(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(45), nullable=False)
 
+class User(db.Model, UserMixin):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(45))
+    password = db.Column(db.String(45))
+
 
 class FileAdminView(FileAdmin):
+    def is_accessible(self):
+        return current_user.is_authenticated
+    
+    def inaccessible_callback(self, name, **kwargs):
+        return redirect(url_for('login'))
     can_mkdir = False
 
 
 class MyHomeView(AdminIndexView):
+
+    def is_accessible(self):
+        return current_user.is_authenticated
+    
+    def inaccessible_callback(self, name, **kwargs):
+        return redirect(url_for('login'))
+
     @expose('/', methods=["GET", "POST"])
     def index(self):
         subscribers = Subscriber.query.all()
@@ -120,20 +141,50 @@ class MyHomeView(AdminIndexView):
 
 
 class ContactAdmin(ModelView):
+
+    def is_accessible(self):
+        return current_user.is_authenticated
+    
+    def inaccessible_callback(self, name, **kwargs):
+        return redirect(url_for('login'))
+
     can_edit = False
     can_create = False
 
 class BlogAdmin(ModelView):
-    pass
+    def is_accessible(self):
+        return current_user.is_authenticated
+    
+    def inaccessible_callback(self, name, **kwargs):
+        return redirect(url_for('login'))
+
+class FaqAdmin(ModelView):
+    def is_accessible(self):
+        return current_user.is_authenticated
+    
+    def inaccessible_callback(self, name, **kwargs):
+        return redirect(url_for('login'))
+
+class CourseAdmin(ModelView):
+    def is_accessible(self):
+        return current_user.is_authenticated
+    
+    def inaccessible_callback(self, name, **kwargs):
+        return redirect(url_for('login'))
 
 admin = Admin(app, name='Admin Panel',
               template_mode='bootstrap3', index_view=MyHomeView())
 admin.add_view(FileAdminView(
     app.config['UPLOAD_FOLDER'], '/static/', name='Dosyalar'))
-admin.add_view(ModelView(Course, db.session, name='Eğitimler'))
-admin.add_view(ModelView(Faq, db.session, name='SSS'))
+admin.add_view(CourseAdmin(Course, db.session, name='Eğitimler'))
+admin.add_view(FaqAdmin(Faq, db.session, name='SSS'))
 admin.add_view(ContactAdmin(ContactHistory, db.session, name='İletişim'))
 admin.add_view(BlogAdmin(Blog, db.session, name='Blog'))
+admin.add_link(MenuLink(name='Çıkış Yap', category='', url="/logout"))
+
+@login.user_loader
+def load_user(user_id):
+    return User.query.get(user_id)
 
 
 def allowed_file(filename):
@@ -145,6 +196,29 @@ def allowed_file(filename):
 def send_uploaded_file(filename=''):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
+@app.route('/login', methods=["POST", "GET"])
+def login():
+    if request.method == "POST":
+
+        username = request.form['username']
+        password = request.form['password']
+
+        user = User.query.filter_by(name=username, password=password).first()
+
+        if user:
+            login_user(user)
+            return redirect(url_for("admin.index"))
+        else:
+            flash("kullanıcı adı veya şifre yanlış.", "error")
+            return redirect(url_for("login"))
+
+
+    return render_template("login.html")
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
 
 @app.route("/get-contact", methods=["POST", "GET"])
 def get_contact():
