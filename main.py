@@ -287,7 +287,7 @@ def index():
 
     return render_template('index.html', courses=courses, sss=sss, contactForm=contactForm)
 
-@app.route("/", subdomain = "egitimler")
+@app.route("/egitimler")
 def courses():
     courses = Course.query.all()
     contactForm = ContactForm()
