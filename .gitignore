@@ -1,6 +1,7 @@
 config.py
 venv/
 app.db
+uploads/
 passenger_wsgi.py
 stderr.log
 tmp/
