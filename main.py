@@ -347,6 +347,11 @@ def index():
 
     return render_template('index.html', courses=courses, sss=sss, contactForm=contactForm)
 
+@app.route("/iletisim")
+def contact():
+    contactForm = ContactForm()
+    sss = Faq.query.all()
+    return render_template('contact_page.html', sss=sss, contactForm=contactForm)
 
 @app.route("/egitimler")
 def courses():

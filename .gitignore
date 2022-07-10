@@ -5,3 +5,4 @@ uploads/
 passenger_wsgi.py
 stderr.log
 tmp/
+*.DS_Store
