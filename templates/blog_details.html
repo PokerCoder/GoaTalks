@@ -12,12 +12,14 @@
   <!-- End Breadcrumbs -->
   <section class="inner-page">
     <div class="container" style="text-align: start; max-width: 1320px">
-     
+     <div class="img_blog">
       <img
-        src="{{ url_for('send_uploaded_file', filename=blog.image) }}"
-        class="img-fluid"
-        alt=""
-      />
+      src="{{ url_for('send_uploaded_file', filename=blog.image) }}"
+      class="img-fluid"
+      alt=""
+    />
+     </div>
+     
         <h2>{{ blog.title }}</h2> 
         <p class="text-muted">{{ blog.created_date.strftime('%d.%m.%Y')}}</p>
       </ul>
