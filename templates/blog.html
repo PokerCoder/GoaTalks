@@ -31,14 +31,14 @@
             <div class="card-body">
               <h5 class="card-title">{{ blog.title }}</h5>
               <p class="card-text">
-                {{ blog.content[:60] }}...
+                {{ blog.content[:60] | safe }}...
               </p>
 
               <a href="{{ url_for(request.endpoint) }}/{{ blog.id }}" class="btn blog-btn" style="width: 100%;">İncele</a>
             </div>
             <div class="card-footer text-muted">
               Yayınlanma Tarihi: {{ blog.created_date.strftime('%d.%m.%Y')}}
-            </div>
+            </div>ß
           </div>
         </div>
         {% endfor %}
