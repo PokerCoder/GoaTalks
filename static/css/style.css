@@ -1628,3 +1628,8 @@ h2 {
   background-color: #47b2e4;
   color: white;
 }
+
+.article_content {
+  max-width: 1320px;
+  text-align: start;
+}
