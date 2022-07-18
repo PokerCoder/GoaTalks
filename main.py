@@ -266,6 +266,8 @@ def login():
 
         if user:
             login_user(user)
+            flash("Görseller jpg formatında olmalıdır.", "warning")
+            flash("Eğitmen görselleri 600x600 olmalıdır.", "warning")
             return redirect(url_for("admin.index"))
         else:
             flash("kullanıcı adı veya şifre yanlış.", "error")
