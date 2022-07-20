@@ -25,19 +25,19 @@
               <span>{{ egitmen.title }}</span>
               <p>{{ egitmen.description }} <a href="egitmen/{{ egitmen.id }}">Devamı için tıklayınız.</a></p>
               <div class="social">
-                {% if egitmen.facebook != "None" %}
+                {% if egitmen.facebook != None %}
                 <a href="{{ egitmen.facebook }}"
                   ><i class="ri-facebook-fill"></i
                 ></a>
-                {% endif %} {% if egitmen.twitter != "None" %}
+                {% endif %} {% if egitmen.twitter != None %}
                 <a href="{{ egitmen.twitter }}"
                   ><i class="ri-twitter-fill"></i
                 ></a>
-                {% endif %} {% if egitmen.instagram != "None" %}
+                {% endif %} {% if egitmen.instagram != None %}
                 <a href="{{ egitmen.instagram }}"
                   ><i class="ri-instagram-fill"></i
                 ></a>
-                {% endif %} {% if egitmen.linkedin != "None" %}
+                {% endif %} {% if egitmen.linkedin != None %}
                 <a href="{{ egitmen.linkedin }}"
                   ><i class="ri-linkedin-box-fill"></i>
                 </a>
