@@ -84,6 +84,17 @@ class Blog(db.Model):
     image = db.Column(db.String(45), nullable=False)
     created_date = db.Column(db.DateTime, default=datetime.datetime.utcnow)
 
+class Egitmen(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(140), nullable=False)
+    title = db.Column(db.String(45), nullable=False)
+    description = db.Column(db.String(60), nullable=False)
+    content = db.Column(db.Text, nullable=False)
+    facebook = db.Column(db.String(45))
+    twitter = db.Column(db.String(45))
+    instagram = db.Column(db.String(45))
+    linkedin = db.Column(db.String(45))
+    image = db.Column(db.String(45), nullable=False)
 
 class Egzersiz(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -185,6 +196,13 @@ class BlogAdmin(ModelView):
     def inaccessible_callback(self, name, **kwargs):
         return redirect(url_for('login'))
 
+class EgitmenAdmin(ModelView):
+    def is_accessible(self):
+        return current_user.is_authenticated
+
+    def inaccessible_callback(self, name, **kwargs):
+        return redirect(url_for('login'))
+
 
 class PodcastAdmin(ModelView):
     def is_accessible(self):
@@ -234,6 +252,7 @@ admin.add_view(CourseAdmin(Course, db.session, name='Eğitimler'))
 admin.add_view(FaqAdmin(Faq, db.session, name='SSS'))
 admin.add_view(ContactAdmin(ContactHistory, db.session, name='İletişim'))
 admin.add_view(BlogAdmin(Blog, db.session, name='Blog'))
+admin.add_view(EgitmenAdmin(Egitmen, db.session, name='Egitmenler'))
 admin.add_view(ArticleAdmin(Article, db.session, name='Makale'))
 admin.add_view(EgzersizAdmin(Egzersiz, db.session, name='Egzersizler'))
 admin.add_view(PodcastAdmin(Podcast, db.session, name='Podcast'))
@@ -346,8 +365,9 @@ def index():
     contactForm = ContactForm()
     courses = Course.query.filter_by(show=True).all()
     sss = Faq.query.all()
+    egitmenler = Egitmen.query.all()
 
-    return render_template('index.html', courses=courses, sss=sss, contactForm=contactForm)
+    return render_template('index.html', courses=courses, sss=sss, contactForm=contactForm, egitmenler = egitmenler)
 
 @app.route("/iletisim")
 def contact():
@@ -368,6 +388,11 @@ def detail(courseNum):
     course = Course.query.get(courseNum)
     return render_template("details.html", course=course, contactForm=contactForm)
 
+@app.route("/egitmen/<int:courseNum>")
+def egitmen(courseNum):
+    contactForm = ContactForm()
+    course = Egitmen.query.get(courseNum)
+    return render_template("details.html", course=course, contactForm=contactForm)
 
 @app.route("/vizyon-misyon")
 def mission():
