@@ -90,11 +90,11 @@ class Egitmen(db.Model):
     title = db.Column(db.String(45), nullable=False)
     description = db.Column(db.String(60), nullable=False)
     content = db.Column(db.Text, nullable=False)
-    facebook = db.Column(db.String(45))
-    twitter = db.Column(db.String(45))
-    instagram = db.Column(db.String(45))
-    linkedin = db.Column(db.String(45))
-    image = db.Column(db.String(45), nullable=False)
+    facebook = db.Column(db.String(145))
+    twitter = db.Column(db.String(145))
+    instagram = db.Column(db.String(145))
+    linkedin = db.Column(db.String(145))
+    image = db.Column(db.String(145), nullable=False)
 
 class Egzersiz(db.Model):
     id = db.Column(db.Integer, primary_key=True)
